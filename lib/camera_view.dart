@@ -8,6 +8,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ocr/constant.dart';
+import 'package:ocr/model/invoice_model.dart';
 import 'package:ocr/model/text_recognize.dart';
 import 'package:ocr/ocr_painter.dart';
 
@@ -292,25 +293,41 @@ class _CameraViewState extends State<CameraView> {
     int counter = 0;
     itemData.clear();
     finalItem.clear();
-    var textRecognize = TextKnown();
+    // var textRecognize = TextKnown(textKnown: textKnown, TopPosition: TopPosition, LeftPosition: LeftPosition)
+    //     TextKnown(LeftPosition: 0, TopPosition: 0, textKnown: "");
     final List<TextKnown> textKnowns = [];
     textKnowns.clear();
     for (TextBlock block in recognizedText.blocks) {
-      textRecognize.textKnown = "";
-
       final String text = block.text;
       final List<String> languages = block.recognizedLanguages;
 
       for (TextLine line in block.lines) {
         // Same getters as TextBlock\
-        textRecognize.textKnown = line.text;
-        textRecognize.topPosition = line.boundingBox.top;
-        textRecognize.leftPosition = line.boundingBox.left;
-        textKnowns.add(textRecognize);
+        // textRecognize.textKnown = line.text;
+        // textRecognize.TopPosition = line.boundingBox.top;
+        // textRecognize.LeftPosition = line.boundingBox.left;
+        textKnowns.add(TextKnown(
+            textKnown: line.text,
+            TopPosition: line.boundingBox.top,
+            LeftPosition: line.boundingBox.left));
+        //     TextKnown(LeftPosition);
         // itemData.add(line);
       }
     }
-    // textKnowns.sort(((a, b) => a.topPosition.compareTo(b.topPosition)));
+    try {
+      textKnowns.sort(((a, b) => a.TopPosition.compareTo(b.TopPosition)));
+    } catch (ex) {
+      print(ex.toString());
+    }
+
+    final _companyName =
+        textKnowns.where((element) => element.textKnown.contains("PT")).first;
+
+    final InvoiceModel invoice = InvoiceModel(
+        CompanyName: _companyName.toString(),
+        InvoiceNumber: "InvoiceNumber",
+        InvoiceDate: "InvoiceDate",
+        InvoiceAmount: "InvoiceAmount");
     _text = 'Recognized text:\n\n${textKnowns[8].textKnown}';
     // if (itemData.length == 31) {
     //   counter = 1;

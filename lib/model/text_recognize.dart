@@ -1,17 +1,11 @@
 class TextKnown {
-  String? textKnown;
-  double? topPosition;
-  double? leftPosition;
+  String textKnown;
+  double TopPosition;
+  double LeftPosition;
 
-  textKnownMap() {
-    var mapping = <String, dynamic>{};
-
-    mapping['textKnown'] = textKnown ?? null;
-
-    mapping['topPosition'] = topPosition ?? '';
-
-    mapping['leftPosition'] = leftPosition ?? '';
-
-    return mapping;
-  }
+  TextKnown({
+    required this.textKnown,
+    required this.TopPosition,
+    required this.LeftPosition,
+  });
 }
