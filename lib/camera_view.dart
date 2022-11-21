@@ -8,6 +8,7 @@ import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:ocr/constant.dart';
+import 'package:ocr/model/text_recognize.dart';
 import 'package:ocr/ocr_painter.dart';
 
 import '../main.dart';
@@ -283,7 +284,7 @@ class _CameraViewState extends State<CameraView> {
           inputImage.inputImageData!.imageRotation);
       _customPaint = CustomPaint(painter: painter);
     } else {
-      _text = 'Recognized text:\n\n${recognizedText.text}';
+      // _text = 'Recognized text:\n\n${recognizedText.text}';
       // TODO: set _customPaint to draw boundingRect on top of image
       _customPaint = null;
     }
@@ -291,18 +292,29 @@ class _CameraViewState extends State<CameraView> {
     int counter = 0;
     itemData.clear();
     finalItem.clear();
+    var textRecognize = TextKnown();
+    final List<TextKnown> textKnowns = [];
+    textKnowns.clear();
     for (TextBlock block in recognizedText.blocks) {
+      textRecognize.textKnown = "";
+
       final String text = block.text;
       final List<String> languages = block.recognizedLanguages;
+
       for (TextLine line in block.lines) {
-        // Same getters as TextBlock
-        itemData.add(line);
+        // Same getters as TextBlock\
+        textRecognize.textKnown = line.text;
+        textRecognize.topPosition = line.boundingBox.top;
+        textRecognize.leftPosition = line.boundingBox.left;
+        textKnowns.add(textRecognize);
+        // itemData.add(line);
       }
     }
-
-    if (itemData.length == 31) {
-      counter = 1;
-    }
+    // textKnowns.sort(((a, b) => a.topPosition.compareTo(b.topPosition)));
+    _text = 'Recognized text:\n\n${textKnowns[8].textKnown}';
+    // if (itemData.length == 31) {
+    //   counter = 1;
+    // }
     // itemData.removeRange(0, 11);
     // finalItem.add(itemData[8].text);
 
