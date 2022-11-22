@@ -56,6 +56,9 @@ class _CameraViewState extends State<CameraView> {
   bool _isBusy = false;
   CustomPaint? _customPaint;
   String? _text;
+  InvoiceModel invoiceData = InvoiceModel(
+      companyName: '', invoiceAmount: '', invoiceDate: '', invoiceNumber: '');
+
   @override
   void initState() {
     super.initState();
@@ -212,7 +215,8 @@ class _CameraViewState extends State<CameraView> {
               onPressed: () => _getImage(ImageSource.camera),
             ),
           ),
-          inputContainer('Nama Outlet', '', tempController, 50.0, false),
+          inputContainer('Nama Outlet', invoiceData.companyName, tempController,
+              50.0, false),
           inputContainer('Nomor Kwitansi', '', tempController, 50.0, false),
           inputContainer('Tanggal Kwitansi', '', tempController, 50.0, false),
           inputContainer(
@@ -270,6 +274,7 @@ class _CameraViewState extends State<CameraView> {
   }
 
   Future<void> processImage(InputImage inputImage) async {
+    _isBusy = false;
     if (!_canProcess) return;
     if (_isBusy) return;
     _isBusy = true;
@@ -290,7 +295,6 @@ class _CameraViewState extends State<CameraView> {
       _customPaint = null;
     }
 
-    int counter = 0;
     itemData.clear();
     finalItem.clear();
     // var textRecognize = TextKnown(textKnown: textKnown, TopPosition: TopPosition, LeftPosition: LeftPosition)
@@ -323,12 +327,7 @@ class _CameraViewState extends State<CameraView> {
     final _companyName =
         textKnowns.where((element) => element.textKnown.contains("PT")).first;
 
-    final InvoiceModel invoice = InvoiceModel(
-        CompanyName: _companyName.toString(),
-        InvoiceNumber: "InvoiceNumber",
-        InvoiceDate: "InvoiceDate",
-        InvoiceAmount: "InvoiceAmount");
-    _text = 'Recognized text:\n\n${textKnowns[8].textKnown}';
+    // _text = 'Recognized text:\n\n${textKnowns[8].textKnown}';
     // if (itemData.length == 31) {
     //   counter = 1;
     // }
@@ -337,7 +336,13 @@ class _CameraViewState extends State<CameraView> {
 
     _isBusy = false;
     if (mounted) {
-      setState(() {});
+      setState(() {
+        invoiceData = InvoiceModel(
+            companyName: _companyName.textKnown,
+            invoiceNumber: "InvoiceNumber",
+            invoiceDate: "InvoiceDate",
+            invoiceAmount: "InvoiceAmount");
+      });
     }
   }
 

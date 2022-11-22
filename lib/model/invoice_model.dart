@@ -1,13 +1,13 @@
 class InvoiceModel {
-  String CompanyName;
-  String InvoiceNumber;
-  String InvoiceDate;
-  String InvoiceAmount;
+  String companyName;
+  String invoiceNumber;
+  String invoiceDate;
+  String invoiceAmount;
 
   InvoiceModel({
-    required this.CompanyName,
-    required this.InvoiceNumber,
-    required this.InvoiceDate,
-    required this.InvoiceAmount,
+    required this.companyName,
+    required this.invoiceNumber,
+    required this.invoiceDate,
+    required this.invoiceAmount,
   });
 }
