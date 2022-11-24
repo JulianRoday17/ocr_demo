@@ -217,10 +217,12 @@ class _CameraViewState extends State<CameraView> {
           ),
           inputContainer('Nama Outlet', invoiceData.companyName, tempController,
               50.0, false),
-          inputContainer('Nomor Kwitansi', '', tempController, 50.0, false),
-          inputContainer('Tanggal Kwitansi', '', tempController, 50.0, false),
-          inputContainer(
-              'Total Nilai Kwitansi', '', tempController, 50.0, false),
+          inputContainer('Nomor Kwitansi', invoiceData.invoiceNumber,
+              tempController, 50.0, false),
+          inputContainer('Tanggal Kwitansi', invoiceData.invoiceDate,
+              tempController, 50.0, false),
+          inputContainer('Total Nilai Kwitansi', invoiceData.invoiceAmount,
+              tempController, 50.0, false),
         ]),
       ),
       if (_image != null)
@@ -323,10 +325,21 @@ class _CameraViewState extends State<CameraView> {
     } catch (ex) {
       print(ex.toString());
     }
+    String invoiceNumber = "Not Found";
+    String invoiceDate = "Not Found";
+    String invoiceAmount = "Not Found";
+    //company name
+    final companyName = textKnowns
+        .where((element) =>
+            element.textKnown.contains("PT") ||
+            element.textKnown.contains("CV") ||
+            element.textKnown.contains("corp"))
+        .first
+        .textKnown;
+// Invoice Number
 
-    final _companyName =
-        textKnowns.where((element) => element.textKnown.contains("PT")).first;
-
+    //find invoice
+    // String invoiceStart =
     // _text = 'Recognized text:\n\n${textKnowns[8].textKnown}';
     // if (itemData.length == 31) {
     //   counter = 1;
@@ -338,10 +351,10 @@ class _CameraViewState extends State<CameraView> {
     if (mounted) {
       setState(() {
         invoiceData = InvoiceModel(
-            companyName: _companyName.textKnown,
-            invoiceNumber: "InvoiceNumber",
-            invoiceDate: "InvoiceDate",
-            invoiceAmount: "InvoiceAmount");
+            companyName: companyName,
+            invoiceNumber: invoiceNumber,
+            invoiceDate: invoiceDate,
+            invoiceAmount: invoiceAmount);
       });
     }
   }
