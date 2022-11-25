@@ -7,10 +7,10 @@ import 'package:google_mlkit_commons/google_mlkit_commons.dart';
 import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:ocr/constant.dart';
-import 'package:ocr/model/invoice_model.dart';
-import 'package:ocr/model/text_recognize.dart';
-import 'package:ocr/ocr_painter.dart';
+import 'package:ocr/features/invoice_detection/models/invoice_model.dart';
+import 'package:ocr/features/invoice_detection/models/text_recognize_model.dart';
+import 'package:ocr/helpers/ocr_helper/ocr_painter.dart';
+import 'package:ocr/shared/constant.dart';
 
 import '../main.dart';
 
@@ -314,14 +314,15 @@ class _CameraViewState extends State<CameraView> {
         // textRecognize.LeftPosition = line.boundingBox.left;
         textKnowns.add(TextKnown(
             textKnown: line.text,
-            TopPosition: line.boundingBox.top,
-            LeftPosition: line.boundingBox.left));
+            topPosition: line.boundingBox.top,
+            leftPosition: line.boundingBox.left,
+            isDate: false));
         //     TextKnown(LeftPosition);
         // itemData.add(line);
       }
     }
     try {
-      textKnowns.sort(((a, b) => a.TopPosition.compareTo(b.TopPosition)));
+      textKnowns.sort(((a, b) => a.topPosition.compareTo(b.topPosition)));
     } catch (ex) {
       print(ex.toString());
     }
