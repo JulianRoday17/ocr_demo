@@ -1,6 +1,7 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
-import 'package:ocr/ocr_screen.dart';
+import 'package:ocr/features/invoice_detection/screens/invoice_screen.dart';
+import 'package:ocr/features/ktp_detection/screens/ktp_home_screen.dart';
 
 List<CameraDescription> cameras = [];
 Map<int, Color> color = {
@@ -38,16 +39,72 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('OCR Demo'),
-        centerTitle: true,
-        elevation: 0,
-      ),
-      body: SafeArea(
-        child: Center(child: TextRecognizerView()),
-      ),
-    );
+    return DefaultTabController(
+        length: 2,
+        child: Scaffold(
+          appBar: AppBar(
+            title: const Text('OCR Demo'),
+            centerTitle: true,
+            elevation: 0,
+            bottom: PreferredSize(
+              preferredSize: Size(kToolbarHeight, kToolbarHeight),
+              child: Material(
+                color: Color(0XFF1AAF6A), //<-- SEE HERE
+                child: TabBar(
+                    indicator: BoxDecoration(
+                        border: Border.all(color: Colors.white),
+                        color: Colors.white),
+                    indicatorColor: Colors.orange,
+                    labelColor: Color(0XFF1AAF6A),
+                    unselectedLabelColor: Colors.white,
+                    tabs: [
+                      Tab(
+                        text: 'KTP',
+                      ),
+                      // Tab(
+                      //   text: 'NPWP',
+                      // ),
+                      Tab(
+                        text: 'Invoice',
+                      )
+                    ]),
+              ),
+            ),
+          ),
+          body: SafeArea(
+              child: Column(children: [
+            // TabBar(
+            //     indicator: BoxDecoration(
+            //         border: Border.all(color: Color(0XFF1AAF6A)),
+            //         color: Color(0XFF1AAF6A)),
+            //     indicatorColor: Colors.orange,
+            //     labelColor: Colors.white,
+            //     unselectedLabelColor: Colors.green,
+            //     tabs: [
+            //       Tab(
+            //         text: 'KTP',
+            //       ),
+            //       // Tab(
+            //       //   text: 'NPWP',
+            //       // ),
+            //       Tab(
+            //         text: 'Invoice',
+            //       )
+            //     ]),
+            Expanded(
+              child: TabBarView(children: [
+                KtpHomeScreen(),
+                // Container(
+                //   child: Center(
+                //     child: Text('NPWP'),
+                //   ),
+                // ),
+                TextRecognizerView()
+              ]),
+            )
+          ])),
+          backgroundColor: Colors.white,
+        ));
   }
 }
 
