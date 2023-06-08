@@ -48,3 +48,4 @@ app.*.map.json
 build
 .flutter-plugins-dependencies
 *.flutter-plugins
+.dart_tool

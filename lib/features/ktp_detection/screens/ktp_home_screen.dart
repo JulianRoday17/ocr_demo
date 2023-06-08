@@ -34,6 +34,7 @@ class _KtpHomeScreenState extends State<KtpHomeScreen> {
   TextEditingController ktpNameController = TextEditingController();
   TextEditingController ktpBirthDateController = TextEditingController();
   TextEditingController ktpGenderController = TextEditingController();
+  TextEditingController ktpAddressController = TextEditingController();
   List<CameraDescription> cameras = [];
 
   final TextRecognizer _textRecognizer =
@@ -140,6 +141,8 @@ class _KtpHomeScreenState extends State<KtpHomeScreen> {
                   'Tanggal Lahir', '', ktpBirthDateController, 50.0, false),
               textContainerWithLabel(
                   'Jenis Kelamin', '', ktpGenderController, 50.0, false),
+              // textContainerWithLabel(
+              //     'Alamat', '', ktpAddressController, 50.0, false),
             ]),
           ),
         ]),
@@ -182,6 +185,7 @@ class _KtpHomeScreenState extends State<KtpHomeScreen> {
       ktpGenderController.text = ktpcontroller.getKTPGender(extractedData);
       ktpBirthDateController.text = ktpcontroller.getKTPBirthDate(
           nikController.text, ktpGenderController.text);
+      ktpAddressController.text = ktpcontroller.getKTPAdress(extractedData);
     });
     isLoading = false;
   }

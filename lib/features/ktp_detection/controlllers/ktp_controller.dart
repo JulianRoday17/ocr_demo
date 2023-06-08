@@ -46,7 +46,6 @@ class KTPController {
   }
 
   String getKTPBirthDate(String nik, String gender) {
-    String birthDate = '';
     String tanggalLahir = nik.substring(6, 8);
     if (gender == 'perempuan') {
       var temp = int.parse(tanggalLahir) - 40;
@@ -77,6 +76,29 @@ class KTPController {
       gender = 'perempuan';
     }
     return gender;
+  }
+
+  String getKTPAdress(List<TextKnown> ktpData) {
+    String ktpAddress = '';
+    try {
+      final filteredData = ktpData
+          .where(
+              (element) => element.textKnown.toLowerCase().contains("alamat"))
+          .first;
+
+      for (var data in ktpData) {
+        if (data.leftPosition > filteredData.leftPosition &&
+            (data.topPosition - filteredData.topPosition).abs() < 15 &&
+            data.textKnown != filteredData.textKnown) {
+          ktpAddress =
+              data.textKnown.toLowerCase().replaceAll(RegExp(":"), '').trim();
+          break;
+        }
+      }
+    } catch (e) {
+      ktpAddress = '';
+    }
+    return ktpAddress;
   }
 
   bool filterData(counterData, data) {
